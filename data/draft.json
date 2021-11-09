@@ -1,0 +1,174 @@
+{
+  "players": [
+    "Bea",
+    "Joshua",
+    "Taylor",
+    "Dan",
+    "Bryce",
+    "Collin",
+    "Kiley",
+    "LeighAnna"
+  ],
+  "picks": [
+    {
+      "owner": "Bea",
+      "team": "KC",
+      "round": 1
+    },
+    {
+      "owner": "Joshua",
+      "team": "TB",
+      "round": 1
+    },
+    {
+      "owner": "Taylor",
+      "team": "SEA",
+      "round": 1
+    },
+    {
+      "owner": "Dan",
+      "team": "BUF",
+      "round": 1
+    },
+    {
+      "owner": "Bryce",
+      "team": "GB",
+      "round": 1
+    },
+    {
+      "owner": "Collin",
+      "team": "BAL",
+      "round": 1
+    },
+    {
+      "owner": "Kiley",
+      "team": "NE",
+      "round": 1
+    },
+    {
+      "owner": "LeighAnna",
+      "team": "TEN",
+      "round": 1
+    },
+    {
+      "owner": "LeighAnna",
+      "team": "CLE",
+      "round": 2
+    },
+    {
+      "owner": "Kiley",
+      "team": "MIA",
+      "round": 2
+    },
+    {
+      "owner": "Collin",
+      "team": "LAR",
+      "round": 2
+    },
+    {
+      "owner": "Bryce",
+      "team": "SF",
+      "round": 2
+    },
+    {
+      "owner": "Dan",
+      "team": "ARI",
+      "round": 2
+    },
+    {
+      "owner": "Taylor",
+      "team": "PIT",
+      "round": 2
+    },
+    {
+      "owner": "Joshua",
+      "team": "IND",
+      "round": 2
+    },
+    {
+      "owner": "Bea",
+      "team": "MIN",
+      "round": 2
+    },
+    {
+      "owner": "Bea",
+      "team": "NO",
+      "round": 3
+    },
+    {
+      "owner": "Joshua",
+      "team": "DAL",
+      "round": 3
+    },
+    {
+      "owner": "Taylor",
+      "team": "LV",
+      "round": 3
+    },
+    {
+      "owner": "Dan",
+      "team": "WSH",
+      "round": 3
+    },
+    {
+      "owner": "Bryce",
+      "team": "LAC",
+      "round": 3
+    },
+    {
+      "owner": "Collin",
+      "team": "CHI",
+      "round": 3
+    },
+    {
+      "owner": "Kiley",
+      "team": "DEN",
+      "round": 3
+    },
+    {
+      "owner": "LeighAnna",
+      "team": "ATL",
+      "round": 3
+    },
+    {
+      "owner": "LeighAnna",
+      "team": "PHI",
+      "round": 4
+    },
+    {
+      "owner": "Kiley",
+      "team": "CAR",
+      "round": 4
+    },
+    {
+      "owner": "Collin",
+      "team": "NYG",
+      "round": 4
+    },
+    {
+      "owner": "Bryce",
+      "team": "CIN",
+      "round": 4
+    },
+    {
+      "owner": "Dan",
+      "team": "JAX",
+      "round": 4
+    },
+    {
+      "owner": "Taylor",
+      "team": "DET",
+      "round": 4
+    },
+    {
+      "owner": "Joshua",
+      "team": "NYJ",
+      "round": 4
+    },
+    {
+      "owner": "Bea",
+      "team": "HOU",
+      "round": 4
+    }
+  ]
+}
