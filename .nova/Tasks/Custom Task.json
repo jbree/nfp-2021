@@ -1,0 +1,18 @@
+{
+  "actions" : {
+    "build" : {
+      "enabled" : true,
+      "script" : "#!\/usr\/bin\/env bash\nyarn && yarn build"
+    },
+    "clean" : {
+      "enabled" : true,
+      "script" : "yarn clean"
+    },
+    "run" : {
+      "enabled" : true,
+      "script" : "#!\/bin\/sh\nyarn && yarn start"
+    }
+  },
+  "identifier" : "AB4AFE51-F543-4623-9355-9C4E8A232D1A",
+  "openLogOnRun" : "start"
+}

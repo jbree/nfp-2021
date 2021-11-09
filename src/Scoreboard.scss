@@ -1,0 +1,27 @@
+.scoreboard {
+  flex-wrap: wrap;
+
+  .scoreboard-left {
+    display: flex;
+    width: 35%;
+  }
+
+  .scoreboard-score {
+    width: 25%;
+    min-width: 25px;
+    text-align: center;
+  }
+
+  .scoreboard-teams {
+    width: 65%;
+    min-widtH: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+
+    > {
+      flex-grow: 1;
+    }
+  }
+}

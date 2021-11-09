@@ -1,0 +1,113 @@
+$primary-color: #4A412A;
+$ugly: #4A412A;
+$bg: black;
+
+* {
+  margin: 0;
+  padding: 0;
+
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.table {
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  > :nth-child(even) {
+    background-color: #f6f6f6;
+  }
+
+}
+
+.flex {
+  display: flex;
+}
+
+.center {
+  align-items: center;
+}
+
+
+
+
+@media screen and (max-width: 600px) {
+  .mobile-hide {
+    display: none;
+  }
+}
+//
+// h1 {
+//   color: $primary-color;
+// }
+//
+// table {
+//   width: 100%;
+//   min-width: 640px;
+//   border-spacing: 0;
+//
+//
+//   > tbody tr:nth-child(odd) {
+//     background-color: #f3f3f3;
+//   }
+//
+//   tr > :nth-child(1) {
+//     text-align: left;
+//     padding-left: 8px;
+//   }
+//
+//   tr > :nth-child(n) {
+//     padding-right: 8px;
+//   }
+//
+//   th {
+//     text-align: center;
+//   }
+//
+//   td {
+//     text-align: center;
+//   }
+//
+// }
+//
+// .auto {
+//   margin: auto;
+// }
+//
+// .flex {
+//   display: flex;
+//   align-items: center;
+// }
+//
+// .left {
+//   justify-content: left;
+//   gap: 8px;
+// }
+//
+// .left {
+//   text-align: left;
+// }
+//
+// .right {
+//   text-align: right;
+// }
+// //
+// // .container {
+// //   width: 100%;
+// //   max-width: 1024px;
+// //   margin: auto;
+// // }
