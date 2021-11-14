@@ -22817,7 +22817,7 @@ function App() {
                                 })
                             }),
                             /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
-                                path: "/",
+                                path: "/scoreboard",
                                 __source: {
                                     fileName: "src/App.tsx",
                                     lineNumber: 30,
@@ -22828,6 +22828,23 @@ function App() {
                                     __source: {
                                         fileName: "src/App.tsx",
                                         lineNumber: 31,
+                                        columnNumber: 17
+                                    },
+                                    __self: this
+                                })
+                            }),
+                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
+                                path: "/",
+                                __source: {
+                                    fileName: "src/App.tsx",
+                                    lineNumber: 33,
+                                    columnNumber: 15
+                                },
+                                __self: this,
+                                children: /*#__PURE__*/ _jsxRuntime.jsx(_scoreboard.Scoreboard, {
+                                    __source: {
+                                        fileName: "src/App.tsx",
+                                        lineNumber: 34,
                                         columnNumber: 17
                                     },
                                     __self: this
@@ -30362,7 +30379,7 @@ function Menu() {
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Link, {
-                            to: "/",
+                            to: "/scoreboard",
                             __source: {
                                 fileName: "src/Menu.tsx",
                                 lineNumber: 10,
