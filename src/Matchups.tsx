@@ -8,16 +8,16 @@ import { Record } from './Record'
 import { TeamIcon } from './TeamIcon'
 import { TeamRecordIcon } from './TeamRecordIcon'
 import './Matchups.scss'
+import './styles.scss'
 
 export function Matchups (): JSX.Element {
-  const [week, setWeek] = useState("")
+  const [week, setWeek] = useState(0)
   const { data, status: matchupsStatus } = useQuery<WeeklyMatchups>(['matchups', week], ({ pageParam = week }) => fetchMatchups(pageParam))
   const { data: draft, status: draftStatus } = useQuery<Draft>('draft', fetchDraft)
   const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime: 60000, enabled: !!draft })
 
   const selectWeek = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(`selected ${e.target.value}`)
-    setWeek(e.target.value)
+    setWeek(Number(e.target.value))
   }
   
   const status = [matchupsStatus, draftStatus, teamsStatus]
@@ -30,17 +30,16 @@ export function Matchups (): JSX.Element {
     return <div>Error loading data</div>
   }
   
+  const selectedWeek = week || data.week
+  
   return (
     <>
-      <h2>Week {data.week} Matchups</h2>
-      <select id='sort' onChange={selectWeek}>
+      <h2>Week {selectedWeek} Matchups</h2>
+      <select id='sort' onChange={selectWeek} value={selectedWeek}>
         {
           data.weeks
             .map<React.ReactNode>(w => (
-              <option value={w.number}
-                  key={w.number} selected={w.number === data.week}>
-                {w.title}
-              </option>
+              <option value={w.number} key={w.number}>{w.title}</option>
             ))
             .reduce((prev, curr) => [prev, ' | ', curr])
         }
