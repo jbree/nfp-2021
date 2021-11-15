@@ -59,28 +59,34 @@ export function Matchups (): JSX.Element {
 
               return(
                 <div className='row matchup' key={`${matchup.away.team}@${matchup.home.team}`}>
-                  <div className={classNames('left name', { winner: matchup.away.winner })}>
-                    ({matchup.away.winner ? '+' : ''}{away.draft.round})
-                    &nbsp;{ap?.owner}
+                  <div className={classNames('left name', { winner: matchup.away.winner, done: matchup.done })}>
+                    {
+                      matchup.away.winner && matchup.done
+                        ? `${ap?.owner} +${away.draft.round}`
+                        : `${ap?.owner} (${away.draft.round})`
+                    }
                   </div>
                   <div className='matchup flex'>
-                    <div className='right team flex center'>
-                      <div className={classNames('flex', { winner: matchup.away.winner })}>
+                    <div className={classNames('right team flex center', { winner: matchup.away.winner, done: matchup.done })}>
+                      <div className={classNames('flex')}>
                         (<Record record={away.record} />)
                       </div>
                       <div className={classNames({ winner: matchup.away.winner })}>{away.name}</div>
                       <TeamIcon abbr={away.abbreviation} size={45} />
                     </div>
                     <div>@</div>
-                    <div className={classNames('left team flex center', { winner: matchup.home.winner })}>
+                    <div className={classNames('left team flex center', { winner: matchup.home.winner, done: matchup.done })}>
                       <TeamIcon abbr={home.abbreviation} size={45} />
                       <div>{home.name}</div>
                       <div>(<Record record={home.record} />)</div>
                     </div>
                   </div>
-                  <div className={classNames('right name', { winner: matchup.home.winner })}>
-                    {hp?.owner}&nbsp;
-                    ({matchup.home.winner ? '+' : ''}{home.draft.round})
+                  <div className={classNames('right name', { winner: matchup.home.winner, done: matchup.done })}>
+                    {
+                      matchup.home.winner && matchup.done
+                        ? `${hp?.owner} +${home.draft.round}`
+                        : `${hp?.owner} (${home.draft.round})`
+                    }
                   </div>
                 </div>
               )
