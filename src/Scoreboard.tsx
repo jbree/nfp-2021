@@ -5,17 +5,6 @@ import { Team, fetchTeams } from './queries/Teams'
 import { TeamRecordIcon } from './TeamRecordIcon'
 import './Scoreboard.scss'
 
-const select = {
-  selected: 2,
-  options: [
-    { value: 0 },
-    { value: 1 },
-    { value: 2 },
-    { value: 3 },
-    { value: 4 },
-  ]
-}
-
 export function Scoreboard (): JSX.Element {
   const staleTime = Number(process.env.NFP_STALE_TIME!)
   if (!staleTime) throw new Error('env undefined: NFP_STALE_TIME')
