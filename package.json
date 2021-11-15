@@ -10,8 +10,8 @@
   "scripts": {
     "build": "parcel build src/index.html",
     "clean": "rm -rf dist",
-    "deploy": "gh-pages -d build",
-    "predeploy": "yarn run build",
+    "predeploy": "parcel build --public-url ./ src/index.html",
+    "deploy": "yarn predeploy && gh-pages -d dist",
     "start": "parcel src/index.html"
   },
   "dependencies": {
