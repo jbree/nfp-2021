@@ -22817,7 +22817,7 @@ function App() {
                                 })
                             }),
                             /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
-                                path: "/scoreboard",
+                                path: "/",
                                 __source: {
                                     fileName: "src/App.tsx",
                                     lineNumber: 30,
@@ -22828,23 +22828,6 @@ function App() {
                                     __source: {
                                         fileName: "src/App.tsx",
                                         lineNumber: 31,
-                                        columnNumber: 17
-                                    },
-                                    __self: this
-                                })
-                            }),
-                            /*#__PURE__*/ _jsxRuntime.jsx(_reactRouterDom.Route, {
-                                path: "/",
-                                __source: {
-                                    fileName: "src/App.tsx",
-                                    lineNumber: 33,
-                                    columnNumber: 15
-                                },
-                                __self: this,
-                                children: /*#__PURE__*/ _jsxRuntime.jsx(_scoreboard.Scoreboard, {
-                                    __source: {
-                                        fileName: "src/App.tsx",
-                                        lineNumber: 34,
                                         columnNumber: 17
                                     },
                                     __self: this
@@ -26458,7 +26441,7 @@ parcelHelpers.export(exports, "TeamIcon", ()=>TeamIcon
 var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 function TeamIcon(props) {
-    const img = `./img/logo/${props.abbr}.svg`;
+    const img = `img/logo/${props.abbr}.svg`;
     return(/*#__PURE__*/ _jsxRuntime.jsx("img", {
         src: img,
         width: `${props.size}px`,
@@ -26922,6 +26905,7 @@ var _teams = require("./queries/Teams");
 var _record = require("./Record");
 var _teamIcon = require("./TeamIcon");
 var _matchupsScss = require("./Matchups.scss");
+var _stylesScss = require("./styles.scss");
 var _s = $RefreshSig$();
 function Matchups() {
     _s();
@@ -26953,7 +26937,7 @@ function Matchups() {
     )) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
         __source: {
             fileName: "src/Matchups.tsx",
-            lineNumber: 26,
+            lineNumber: 27,
             columnNumber: 12
         },
         __self: this,
@@ -26963,7 +26947,7 @@ function Matchups() {
     ) || !data || !draft || !teams) return(/*#__PURE__*/ _jsxRuntime.jsx("div", {
         __source: {
             fileName: "src/Matchups.tsx",
-            lineNumber: 30,
+            lineNumber: 31,
             columnNumber: 12
         },
         __self: this,
@@ -26976,7 +26960,7 @@ function Matchups() {
             /*#__PURE__*/ _jsxRuntime.jsxs("h2", {
                 __source: {
                     fileName: "src/Matchups.tsx",
-                    lineNumber: 40,
+                    lineNumber: 41,
                     columnNumber: 7
                 },
                 __self: this,
@@ -26992,7 +26976,7 @@ function Matchups() {
                 value: selectedWeek,
                 __source: {
                     fileName: "src/Matchups.tsx",
-                    lineNumber: 41,
+                    lineNumber: 42,
                     columnNumber: 7
                 },
                 __self: this,
@@ -27000,7 +26984,7 @@ function Matchups() {
                         value: w.number,
                         __source: {
                             fileName: "src/Matchups.tsx",
-                            lineNumber: 45,
+                            lineNumber: 46,
                             columnNumber: 15
                         },
                         __self: this,
@@ -27014,16 +26998,17 @@ function Matchups() {
                 )
             }),
             /*#__PURE__*/ _jsxRuntime.jsx("table", {
+                className: "table",
                 __source: {
                     fileName: "src/Matchups.tsx",
-                    lineNumber: 52,
+                    lineNumber: 53,
                     columnNumber: 7
                 },
                 __self: this,
                 children: /*#__PURE__*/ _jsxRuntime.jsx("tbody", {
                     __source: {
                         fileName: "src/Matchups.tsx",
-                        lineNumber: 53,
+                        lineNumber: 54,
                         columnNumber: 9
                     },
                     __self: this,
@@ -27041,7 +27026,7 @@ function Matchups() {
                         return(/*#__PURE__*/ _jsxRuntime.jsxs("tr", {
                             __source: {
                                 fileName: "src/Matchups.tsx",
-                                lineNumber: 68,
+                                lineNumber: 69,
                                 columnNumber: 19
                             },
                             __self: this,
@@ -27050,7 +27035,7 @@ function Matchups() {
                                     className: "left",
                                     __source: {
                                         fileName: "src/Matchups.tsx",
-                                        lineNumber: 71,
+                                        lineNumber: 72,
                                         columnNumber: 21
                                     },
                                     __self: this,
@@ -27058,7 +27043,7 @@ function Matchups() {
                                         className: matchup.away.winner ? 'winner' : '',
                                         __source: {
                                             fileName: "src/Matchups.tsx",
-                                            lineNumber: 72,
+                                            lineNumber: 73,
                                             columnNumber: 23
                                         },
                                         __self: this,
@@ -27071,7 +27056,7 @@ function Matchups() {
                                     },
                                     __source: {
                                         fileName: "src/Matchups.tsx",
-                                        lineNumber: 74,
+                                        lineNumber: 75,
                                         columnNumber: 21
                                     },
                                     __self: this,
@@ -27086,7 +27071,7 @@ function Matchups() {
                                         },
                                         __source: {
                                             fileName: "src/Matchups.tsx",
-                                            lineNumber: 75,
+                                            lineNumber: 76,
                                             columnNumber: 23
                                         },
                                         __self: this,
@@ -27096,7 +27081,7 @@ function Matchups() {
                                                 record: away.record,
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 76,
+                                                    lineNumber: 77,
                                                     columnNumber: 26
                                                 },
                                                 __self: this
@@ -27106,7 +27091,7 @@ function Matchups() {
                                                 className: matchup.away.winner ? 'winner' : '',
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 77,
+                                                    lineNumber: 78,
                                                     columnNumber: 25
                                                 },
                                                 __self: this,
@@ -27117,7 +27102,7 @@ function Matchups() {
                                                 size: 45,
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 78,
+                                                    lineNumber: 79,
                                                     columnNumber: 25
                                                 },
                                                 __self: this
@@ -27132,7 +27117,7 @@ function Matchups() {
                                     },
                                     __source: {
                                         fileName: "src/Matchups.tsx",
-                                        lineNumber: 81,
+                                        lineNumber: 82,
                                         columnNumber: 21
                                     },
                                     __self: this,
@@ -27144,7 +27129,7 @@ function Matchups() {
                                     },
                                     __source: {
                                         fileName: "src/Matchups.tsx",
-                                        lineNumber: 82,
+                                        lineNumber: 83,
                                         columnNumber: 21
                                     },
                                     __self: this,
@@ -27159,7 +27144,7 @@ function Matchups() {
                                         },
                                         __source: {
                                             fileName: "src/Matchups.tsx",
-                                            lineNumber: 83,
+                                            lineNumber: 84,
                                             columnNumber: 23
                                         },
                                         __self: this,
@@ -27169,7 +27154,7 @@ function Matchups() {
                                                 size: 45,
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 84,
+                                                    lineNumber: 85,
                                                     columnNumber: 25
                                                 },
                                                 __self: this
@@ -27178,7 +27163,7 @@ function Matchups() {
                                                 className: matchup.home.winner ? 'winner' : '',
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 85,
+                                                    lineNumber: 86,
                                                     columnNumber: 25
                                                 },
                                                 __self: this,
@@ -27189,7 +27174,7 @@ function Matchups() {
                                                 record: home.record,
                                                 __source: {
                                                     fileName: "src/Matchups.tsx",
-                                                    lineNumber: 86,
+                                                    lineNumber: 87,
                                                     columnNumber: 26
                                                 },
                                                 __self: this
@@ -27202,7 +27187,7 @@ function Matchups() {
                                     className: "right",
                                     __source: {
                                         fileName: "src/Matchups.tsx",
-                                        lineNumber: 89,
+                                        lineNumber: 90,
                                         columnNumber: 21
                                     },
                                     __self: this,
@@ -27210,7 +27195,7 @@ function Matchups() {
                                         className: matchup.home.winner ? 'winner' : '',
                                         __source: {
                                             fileName: "src/Matchups.tsx",
-                                            lineNumber: 90,
+                                            lineNumber: 91,
                                             columnNumber: 23
                                         },
                                         __self: this,
@@ -27241,7 +27226,7 @@ $RefreshReg$(_c, "Matchups");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"6Ds2u","react":"4mchR","react-query":"gnTg6","./queries/Matchups":"jlMpY","./queries/Draft":"goj5p","./queries/Teams":"7alGw","./Record":"ef9Jn","./TeamIcon":"ioYHr","./Matchups.scss":"9canZ","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"9pz13"}],"jlMpY":[function(require,module,exports) {
+},{"react/jsx-runtime":"6Ds2u","react":"4mchR","react-query":"gnTg6","./queries/Matchups":"jlMpY","./queries/Draft":"goj5p","./queries/Teams":"7alGw","./Record":"ef9Jn","./TeamIcon":"ioYHr","./Matchups.scss":"9canZ","@parcel/transformer-js/src/esmodule-helpers.js":"ciiiV","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"9pz13","./styles.scss":"2G57T"}],"jlMpY":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "fetchMatchups", ()=>fetchMatchups
@@ -27343,7 +27328,7 @@ async function fetchMatchups(week) {
     };
 });
 
-},{}],"9canZ":[function() {},{}],"etVME":[function(require,module,exports) {
+},{}],"9canZ":[function() {},{}],"2G57T":[function() {},{}],"etVME":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "MemoryRouter", ()=>_reactRouter.MemoryRouter
