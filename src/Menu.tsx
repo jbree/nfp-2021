@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from "react-router-dom";
+import GithubCorner from 'react-github-corner';
 import './Menu.scss'
 
 export function Menu (): JSX.Element {
@@ -12,6 +13,7 @@ export function Menu (): JSX.Element {
           <li><Link to="/matchups">Matchups</Link></li>
         </ul>
       </nav>
+      <GithubCorner href='https://github.com/jbree/nfp-2021' size={64} bannerColor='white' octoColor='#4A412A' />
     </header>
   )
 }
