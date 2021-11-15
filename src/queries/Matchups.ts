@@ -64,8 +64,6 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   const base = process.env.NFP_SCOREBOARD_URI!
   const url = week ? urljoin(base, `?week=${week}`) : base
   
-  console.log(`url: ${url}`)
-  
   const response = await fetch(url)
 
   if (!response.ok) {
