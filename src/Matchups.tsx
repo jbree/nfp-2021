@@ -59,8 +59,9 @@ export function Matchups (): JSX.Element {
 
               return(
                 <div className='row matchup' key={`${matchup.away.team}@${matchup.home.team}`}>
-                  <div className='left name'>
-                    <div className={matchup.away.winner ? 'winner' : ''}>{ap?.owner}</div>
+                  <div className={classNames('left name', { winner: matchup.away.winner })}>
+                    ({matchup.away.winner ? '+' : ''}{away.draft.round})
+                    &nbsp;{ap?.owner}
                   </div>
                   <div className='matchup flex'>
                     <div className='right team flex center'>
@@ -77,7 +78,10 @@ export function Matchups (): JSX.Element {
                       <div>(<Record record={home.record} />)</div>
                     </div>
                   </div>
-                  <div className={classNames('right name', { winner: matchup.home.winner })}>{hp?.owner}</div>
+                  <div className={classNames('right name', { winner: matchup.home.winner })}>
+                    {hp?.owner}&nbsp;
+                    ({matchup.home.winner ? '+' : ''}{home.draft.round})
+                  </div>
                 </div>
               )
             })
