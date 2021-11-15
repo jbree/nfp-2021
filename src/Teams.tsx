@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useQuery } from 'react-query'
 import { Draft, fetchDraft } from './queries/Draft'

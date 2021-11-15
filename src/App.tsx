@@ -1,14 +1,13 @@
+import React from "react";
 import { QueryClient, QueryClientProvider } from 'react-query'
-
-import { Scoreboard } from './Scoreboard'
-import { Teams } from './Teams'
-import { Matchups } from './Matchups'
-import * as React from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom"
+import { Scoreboard } from './Scoreboard'
+import { Teams } from './Teams'
+import { Matchups } from './Matchups'
 import { Menu } from './Menu'
 
 const queryClient = new QueryClient()

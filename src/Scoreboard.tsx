@@ -57,7 +57,6 @@ export function Scoreboard (): JSX.Element {
                   score.teams
                     .sort((a, b) => a.draft.round - b.draft.round)
                   .map(team => {
-                    const r = team.record
                     return (
                       <div className='scoreboard-team' key={team.abbreviation}>
                         <TeamRecordIcon team={team} />

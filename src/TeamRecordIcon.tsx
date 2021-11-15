@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { TeamIcon } from './TeamIcon'
 import { Team } from './queries/Teams'
 import { Record } from './Record'
