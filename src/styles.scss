@@ -12,6 +12,10 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+h2 {
+  margin: 8px 0;
+}
+
 .container {
   width: 100%;
   max-width: 1024px;
@@ -40,6 +44,7 @@ body {
 
 .center {
   align-items: center;
+  text-align: center;
 }
 
 .right {

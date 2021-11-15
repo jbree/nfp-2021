@@ -5,6 +5,7 @@ import { Draft, fetchDraft } from './queries/Draft'
 import { Team, fetchTeams } from './queries/Teams'
 import { Record } from './Record'
 import { TeamIcon } from './TeamIcon'
+import './Teams.scss'
 
 enum TeamSortOrder {
   Draft = 'draft',
@@ -15,10 +16,12 @@ enum TeamSortOrder {
 
 
 export function Teams(): JSX.Element {
+  const staleTime = Number(process.env.NFP_STALE_TIME!)
+  if (!staleTime) throw new Error('env undefined: NFP_STALE_TIME')
+  
   const [sort, setSort] = useState(TeamSortOrder.Draft)
-
-  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime: process.env.NFP_STALE_TIME! })
-  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime: process.env.NFP_STALE_TIME!, enabled: !!draft })
+  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime })
+  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
 
   const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as TeamSortOrder)
@@ -38,7 +41,7 @@ export function Teams(): JSX.Element {
   return (
     <>
       <h2>Teams</h2>
-      <label htmlFor='sort'>Sort by:</label>
+      <label htmlFor='sort'>Sort by: </label>
       <select id='sort' onChange={selectSort}>
         {
           sortOrders
@@ -51,58 +54,57 @@ export function Teams(): JSX.Element {
             .reduce((prev, curr) => [prev, ' | ', curr])
         }
       </select>
-        {/* <thead>
-          <tr>
-            <th>Team</th>
-            <th>Record</th>
-            <th>Owner</th>
-            <th>Overall Pick</th>
-            <th>Draft Round</th>
-            <th>Points</th>
-          </tr>
-        </thead> */}
       <div className='table'>
-      {
-        teams
-        .sort((a, b) => {
-          switch (sort) {
-          case TeamSortOrder.Draft:
-            return a.draft.overall - b.draft.overall
-
-          case TeamSortOrder.Points:
-            return b.points - a.points
-
-          case TeamSortOrder.Owner:
-            return a.draft.owner.localeCompare(b.draft.owner) ||
-              a.draft.overall - b.draft.overall
-
-          default:
-          case TeamSortOrder.Record:
-            return b.record.wins === a.record.wins
-              ? a.record.losses === b.record.losses
-                ? a.record.ties === b.record.ties
-                  ? b.points - a.points
-                  : a.record.ties - b.record.ties
-                : a.record.losses - b.record.losses
-              : b.record.wins - a.record.wins
-          }
-        })
-        .map(team => (
-          <div className='row' key={team.abbreviation}>
-            <div className='flex center'>
-              <TeamIcon abbr={team.abbreviation} size={50} />
-              <div>{team.location} {team.name}</div>
-              <div>(<Record record={team.record} />)</div>
-            </div>
-            <div className=''>
-              <div className=''>{team.draft.owner}</div>
-              <div className=''>{team.draft.round}</div>
-              <div className=''>{team.draft.overall}</div>
-              <div>Pts: {team.points}</div>
-            </div>
+        <div className='row flex' key='teams-header'>
+          <div className='teams-owner'>Owner</div>
+          <div className='flex center teams-team'>Team</div>
+          <div className='flex center teams-stats'>
+            <div className='teams-stat center'>Draft Round</div>
+            <div className='teams-stat center'>Overall Pick</div>
+            <div className='teams-stat center'>Points</div>
           </div>
-        ))
-      }
+        </div>
+        {
+          teams
+            .sort((a, b) => {
+              switch (sort) {
+              case TeamSortOrder.Draft:
+                return a.draft.overall - b.draft.overall
+    
+              case TeamSortOrder.Points:
+                return b.points - a.points
+    
+              case TeamSortOrder.Owner:
+                return a.draft.owner.localeCompare(b.draft.owner) ||
+                  a.draft.overall - b.draft.overall
+    
+              default:
+              case TeamSortOrder.Record:
+                return b.record.wins === a.record.wins
+                  ? a.record.losses === b.record.losses
+                    ? a.record.ties === b.record.ties
+                      ? b.points - a.points
+                      : a.record.ties - b.record.ties
+                    : a.record.losses - b.record.losses
+                  : b.record.wins - a.record.wins
+              }
+            })
+            .map(team => (
+              <div className='row flex' key={team.abbreviation}>
+                <div className='teams-owner'>{team.draft.owner}</div>
+                <div className='flex center teams-team'>
+                  <TeamIcon abbr={team.abbreviation} size={50} />
+                  <div>{team.location} {team.name}</div>
+                  <div>(<Record record={team.record} />)</div>
+                </div>
+                <div className='flex center teams-stats'>
+                  <div className='teams-stat center'>{team.draft.round}</div>
+                  <div className='teams-stat center'>{team.draft.overall}</div>
+                  <div className='teams-stat center'>{team.points}</div>
+                </div>
+              </div>
+            ))
+        }
       </div>
     </>
   )

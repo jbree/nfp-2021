@@ -1,0 +1,25 @@
+.w30 {
+  flex: 0 0 30%;
+}
+
+.w50 {
+  flex: 0 0 50%;
+}
+
+.teams-stats {
+  gap: 32px;
+  flex: 0 1 50%;
+  
+  .teams-stat {
+    width: 25%;
+  }
+}
+
+.teams-team {
+  gap: 8px;
+  flex: 0 1 35%;
+}
+
+.teams-owner {
+  flex: 0 1 15%;
+}
