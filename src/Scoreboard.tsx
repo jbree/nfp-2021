@@ -29,7 +29,7 @@ export function Scoreboard (): JSX.Element {
 
   return (
     <>
-      <h2 key='scoreboard'>Scoreboard</h2>
+      <h2 key='scoreboard'>Leaderboard</h2>
       <div className='table scoreboard'>
         <div className='row'>
           <div className='scoreboard-left'>
