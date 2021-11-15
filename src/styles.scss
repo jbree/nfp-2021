@@ -42,7 +42,15 @@ body {
   align-items: center;
 }
 
+.right {
+  justify-content: flex-end;
+  text-align: right;
+}
 
+.left {
+  justify-content: flex-start;
+  text-align: left;
+}
 
 
 @media screen and (max-width: 600px) {

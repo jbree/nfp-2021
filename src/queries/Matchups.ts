@@ -1,5 +1,3 @@
-import { Player } from './Players'
-import { Team } from './Teams'
 import urljoin from 'url-join'
 
 export interface MatchupTeam {
@@ -57,12 +55,9 @@ interface ScoreboardData {
 }
 
 
-
 function assertIsScoreboardData (data: any): asserts data is ScoreboardData {
   //FIXME!
 }
-
-
 
 
 export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
@@ -85,9 +80,7 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
 
     const h = competitors.find(c => c.homeAway === 'home')!
     const a = competitors.find(c => c.homeAway === 'away')!
-    if (a.winner) {
-      console.log(`${a.team.abbreviation} is a winner!`)
-    }
+    
     return {
       home: {
         team: h.team.abbreviation,

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { useState } from 'react';
 import { useQuery } from 'react-query'
 import { fetchMatchups, WeeklyMatchups } from './queries/Matchups'
@@ -6,9 +6,8 @@ import { fetchDraft, Draft } from './queries/Draft'
 import { fetchTeams, Team } from './queries/Teams'
 import { Record } from './Record'
 import { TeamIcon } from './TeamIcon'
-import { TeamRecordIcon } from './TeamRecordIcon'
+import classNames from 'classnames'
 import './Matchups.scss'
-import './styles.scss'
 
 export function Matchups (): JSX.Element {
   const [week, setWeek] = useState(0)
@@ -44,53 +43,46 @@ export function Matchups (): JSX.Element {
             .reduce((prev, curr) => [prev, ' | ', curr])
         }
       </select>
-      <table>
-        <tbody>
-          {
-            data.matchups
-              .map(matchup => {
-                const hp = draft.picks.find(pick => pick.team === matchup.home.team)
-                const ap = draft.picks.find(pick => pick.team === matchup.away.team)
+      <div className='table'>
+        {
+          data.matchups
+            .map(matchup => {
+              const hp = draft.picks.find(pick => pick.team === matchup.home.team)
+              const ap = draft.picks.find(pick => pick.team === matchup.away.team)
 
-                const home = teams.find(team => team.abbreviation === matchup.home.team)
-                const away = teams.find(team => team.abbreviation === matchup.away.team)
+              const home = teams.find(team => team.abbreviation === matchup.home.team)
+              const away = teams.find(team => team.abbreviation === matchup.away.team)
 
-                if (!home || !away) {
-                  return <></>
-                }
+              if (!home || !away) {
+                return <></>
+              }
 
-                return(
-                  <tr key={`${matchup.away.team}@${matchup.home.team}`}>
-                    {/* <td style={{backgroundColor: `#${matchup.away.color}`, width: '20px'}}></td> */}
-                    {/* <td></> */}
-                    <td className='left'>
-                      <div className={matchup.away.winner ? 'winner' : ''}>{ap?.owner}</div>
-                    </td>
-                    <td style={{ textAlign: 'right' }}>
-                      <div className={matchup.away.winner ? 'winner' : ''} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '8px' }}>
+              return(
+                <div className='row matchup' key={`${matchup.away.team}@${matchup.home.team}`}>
+                  <div className='left name'>
+                    <div className={matchup.away.winner ? 'winner' : ''}>{ap?.owner}</div>
+                  </div>
+                  <div className='matchup flex'>
+                    <div className='right team flex center'>
+                      <div className={classNames('flex', { winner: matchup.away.winner })}>
                         (<Record record={away.record} />)
-                        <div className={matchup.away.winner ? 'winner' : ''}>{away.name}</div>
-                        <TeamIcon abbr={away.abbreviation} size={45} />
                       </div>
-                    </td>
-                    <td style={{ aspectRatio: '1', width: '40px' }}>@</td>
-                    <td style={{ textAlign: 'left' }}>
-                      <div className={matchup.home.winner ? 'winner' : ''} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '8px' }}>
-                        <TeamIcon abbr={home.abbreviation} size={45} />
-                        <div className={matchup.home.winner ? 'winner' : ''}>{home.name}</div>
-                        (<Record record={home.record} />)
-                      </div>
-                    </td>
-                    <td className='right'>
-                      <div className={matchup.home.winner ? 'winner' : ''}>{hp?.owner}</div>
-                    </td>
-                    {/* <td style={{backgroundColor: `#${matchup.home.color}`, width: '20px'}}></td> */}
-                  </tr>
-                )
-              })
-          }
-        </tbody>
-      </table>
+                      <div className={classNames({ winner: matchup.away.winner })}>{away.name}</div>
+                      <TeamIcon abbr={away.abbreviation} size={45} />
+                    </div>
+                    <div>@</div>
+                    <div className={classNames('left team flex center', { winner: matchup.home.winner })}>
+                      <TeamIcon abbr={home.abbreviation} size={45} />
+                      <div>{home.name}</div>
+                      <div>(<Record record={home.record} />)</div>
+                    </div>
+                  </div>
+                  <div className={classNames('right name', { winner: matchup.home.winner })}>{hp?.owner}</div>
+                </div>
+              )
+            })
+        }
+      </div>
     </>
   )
 }

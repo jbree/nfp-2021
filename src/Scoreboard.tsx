@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { useQuery } from 'react-query'
 import { Draft, fetchDraft } from './queries/Draft'
 import { Team, fetchTeams } from './queries/Teams'
@@ -17,8 +17,11 @@ const select = {
 }
 
 export function Scoreboard (): JSX.Element {
-  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime: process.env.NFP_STALE_TIME })
-  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime: process.env.NFP_STALE_TIME, enabled: !!draft })
+  const staleTime = Number(process.env.NFP_STALE_TIME!)
+  if (!staleTime) throw new Error('env undefined: NFP_STALE_TIME')
+  
+  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime })
+  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
 
   if (!teams || !draft) {
     return <div></div>
@@ -67,7 +70,7 @@ export function Scoreboard (): JSX.Element {
                   .map(team => {
                     const r = team.record
                     return (
-                      <div key={team.abbreviation}>
+                      <div className='scoreboard-team' key={team.abbreviation}>
                         <TeamRecordIcon team={team} />
                       </div>
                     )
