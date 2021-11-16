@@ -26,3 +26,12 @@
 .name {
   flex: 0 1 15%;
 }
+
+.bye-teams {
+  width: 100%;
+  
+  .bye-team {
+    gap: 12px;
+    flex: 0 0 25%;
+  }
+}

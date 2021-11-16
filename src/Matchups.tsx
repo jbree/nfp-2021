@@ -93,6 +93,30 @@ export function Matchups (): JSX.Element {
             })
         }
       </div>
+      {
+        !data.byeTeams.length
+          ? <></>
+          : <>
+            <h3>
+              Teams on Bye Week
+            </h3>
+            <div className='flex center bye-teams'>
+              {
+                data.byeTeams.map(byeTeam => {
+                  const team = teams.find(t => t.abbreviation === byeTeam)
+                  const pick = draft.picks.find(pick => pick.team === byeTeam)
+                  
+                  return <>
+                    <div className='flex center bye-team'>
+                      <TeamIcon abbr={byeTeam} size={45} />
+                      <div>{pick?.owner}'s {team?.name} ({pick?.round})</div>
+                    </div>
+                  </>
+                })
+              }
+            </div>
+          </>
+      }
     </>
   )
 }

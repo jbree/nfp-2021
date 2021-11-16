@@ -15,6 +15,7 @@ export interface Matchup {
 
 export interface WeeklyMatchups {
   matchups: Matchup[]
+  byeTeams: string[]
   week: number
   weeks: {
     title: string
@@ -38,6 +39,9 @@ interface ScoreboardData {
   }[]
   week: {
     number: number
+    teamsOnBye: {
+      abbreviation: string
+    }[]
   }
   events: {
     shortName: string
@@ -117,9 +121,12 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
       }
     })
 
+  const byeTeams = data.week.teamsOnBye?.map(team => team.abbreviation) ?? []
+
   return {
     matchups,
     week: data.week.number,
     weeks,
+    byeTeams,
   }
 }
