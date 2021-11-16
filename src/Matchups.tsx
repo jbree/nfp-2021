@@ -38,7 +38,7 @@ export function Matchups (): JSX.Element {
         {
           data.weeks
             .map<React.ReactNode>(w => (
-              <option value={w.number} key={w.number}>{w.title}</option>
+              <option value={w.number}>{w.title}</option>
             ))
             .reduce((prev, curr) => [prev, ' | ', curr])
         }
@@ -96,26 +96,24 @@ export function Matchups (): JSX.Element {
       {
         !data.byeTeams.length
           ? <></>
-          : <>
-            <h3>
-              Teams on Bye Week
-            </h3>
-            <div className='flex center bye-teams'>
-              {
-                data.byeTeams.map(byeTeam => {
-                  const team = teams.find(t => t.abbreviation === byeTeam)
-                  const pick = draft.picks.find(pick => pick.team === byeTeam)
-                  
-                  return <>
-                    <div className='flex center bye-team'>
+          : <div>
+              <h3>
+                Teams on Bye Week
+              </h3>
+              <div className='flex center bye-teams'>
+                {
+                  data.byeTeams.map(byeTeam => {
+                    const team = teams.find(t => t.abbreviation === byeTeam)
+                    const pick = draft.picks.find(pick => pick.team === byeTeam)
+                    
+                    return <div className='flex center bye-team' key={byeTeam}>
                       <TeamIcon abbr={byeTeam} size={45} />
                       <div>{pick?.owner}'s {team?.name} ({pick?.round})</div>
                     </div>
-                  </>
-                })
-              }
+                  })
+                }
+              </div>
             </div>
-          </>
       }
     </>
   )
