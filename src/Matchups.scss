@@ -29,6 +29,7 @@
 
 .bye-teams {
   width: 100%;
+  flex-wrap: wrap;
   
   .bye-team {
     gap: 12px;
