@@ -9,11 +9,27 @@ import { TeamIcon } from './TeamIcon'
 import classNames from 'classnames'
 import './Matchups.scss'
 
+enum MatchupSortOrder {
+  Points = 'points',
+  GameTime = 'time',
+}
+
+const sortOrders = [
+  { order: MatchupSortOrder.Points , name: 'Most Consequential' },
+  { order: MatchupSortOrder.GameTime, name: 'Game Time' },
+]
+
 export function Matchups (): JSX.Element {
   const [week, setWeek] = useState(0)
+  const [sort, setSort] = useState(MatchupSortOrder.Points)
+  
   const { data, status: matchupsStatus } = useQuery<WeeklyMatchups>(['matchups', week], ({ pageParam = week }) => fetchMatchups(pageParam))
   const { data: draft, status: draftStatus } = useQuery<Draft>('draft', fetchDraft)
   const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime: 60000, enabled: !!draft })
+
+  const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSort(e.target.value as MatchupSortOrder)
+  }
 
   const selectWeek = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setWeek(Number(e.target.value))
@@ -31,22 +47,44 @@ export function Matchups (): JSX.Element {
   
   const selectedWeek = week || data.week
   
+  const matchups = sort === MatchupSortOrder.Points
+    ? [...data.matchups].sort((a, b) => {
+      const ah = draft.picks.find(pick => pick.team === a.home.team)?.round ?? 0
+      const aa = draft.picks.find(pick => pick.team === a.away.team)?.round ?? 0
+      const bh = draft.picks.find(pick => pick.team === b.home.team)?.round ?? 0
+      const ba = draft.picks.find(pick => pick.team === b.away.team)?.round ?? 0
+      
+      return (bh + ba) - (ah + aa)
+    })
+    : [...data.matchups].sort((a, b) => a.date - b.date)
+  
   return (
     <>
       <h2>Week {selectedWeek} Matchups</h2>
-      <select id='sort' onChange={selectWeek} value={selectedWeek}>
-        {
-          data.weeks
-            .map<React.ReactNode>(w => (
-              <option value={w.number}>{w.title}</option>
-            ))
-            .reduce((prev, curr) => [prev, ' | ', curr])
-        }
-      </select>
+      <p>
+        <select id='week' key='select-week' onChange={selectWeek} value={selectedWeek}>
+          {
+            data.weeks
+              .map<React.ReactNode>(w => (
+                <option value={w.number} key={w.number}>{w.title}</option>
+              ))
+          }
+        </select>
+      </p>
+      <p>
+        <label htmlFor='sort'>Sort by: </label>
+        <select id='sort' key='select-sort' onChange={selectSort} value={sort}>
+          {
+            sortOrders
+              .map<React.ReactNode>(s => (
+                <option value={s.order} key={s.name}>{s.name}</option>
+              ))
+          }
+        </select>
+      </p>
       <div className='table'>
         {
-          data.matchups
-            .map(matchup => {
+          matchups.map(matchup => {
               const hp = draft.picks.find(pick => pick.team === matchup.home.team)
               const ap = draft.picks.find(pick => pick.team === matchup.away.team)
 

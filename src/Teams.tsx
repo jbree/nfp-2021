@@ -44,14 +44,9 @@ export function Teams(): JSX.Element {
       <label htmlFor='sort'>Sort by: </label>
       <select id='sort' onChange={selectSort}>
         {
-          sortOrders
-            .map<React.ReactNode>(s => (
-              <option value={s.order}
-                  key={s.order}>
-                {s.name}
-              </option>
-            ))
-            .reduce((prev, curr) => [prev, ' | ', curr])
+          sortOrders.map<React.ReactNode>(s => (
+            <option value={s.order} key={s.order}>{s.name}</option>
+          ))
         }
       </select>
       <div className='table'>

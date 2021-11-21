@@ -11,6 +11,7 @@ export interface Matchup {
   home: MatchupTeam
   away: MatchupTeam
   done: boolean
+  date: number
 }
 
 export interface WeeklyMatchups {
@@ -61,6 +62,8 @@ interface ScoreboardData {
           description: string
         }
       }
+      date: string
+      timeValid: boolean
     }[]
   }[]
 }
@@ -85,8 +88,9 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   assertIsScoreboardData(data)
 
   const matchups: Matchup[] = data.events.map(event => {
-    const competitors = event.competitions[0].competitors
-    const status = event.competitions[0].status
+    const competition = event.competitions[0]
+    const competitors = competition.competitors
+    const status = competition.status
     
     const done = status.type.completed && status.type.description === 'Final'
 
@@ -106,7 +110,8 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
         score: parseInt(a.score),
         winner: !!a.winner,
       },
-      done
+      done,
+      date: Date.parse(competition.date) || Infinity,
     }
   })
   
