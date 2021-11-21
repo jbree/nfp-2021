@@ -7,10 +7,10 @@ import './Scoreboard.scss'
 
 export function Scoreboard (): JSX.Element {
   const staleTime = Number(process.env.NFP_STALE_TIME!)
-  if (!staleTime) throw new Error('env undefined: NFP_STALE_TIME')
-  
-  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime })
-  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
+  if (!staleTime) {throw new Error('env undefined: NFP_STALE_TIME')}
+
+  const { data: draft } = useQuery<Draft>('draft', fetchDraft, { staleTime })
+  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
 
   if (!teams || !draft) {
     return <div></div>
@@ -53,17 +53,17 @@ export function Scoreboard (): JSX.Element {
                   <div>{score.player}</div>
                 </div>
                 <div className='scoreboard-teams'>
-                {
-                  score.teams
-                    .sort((a, b) => a.draft.round - b.draft.round)
-                  .map(team => {
-                    return (
-                      <div className='scoreboard-team' key={team.abbreviation}>
-                        <TeamRecordIcon team={team} />
-                      </div>
-                    )
-                  })
-                }
+                  {
+                    score.teams
+                      .sort((a, b) => a.draft.round - b.draft.round)
+                      .map(team => {
+                        return (
+                          <div className='scoreboard-team' key={team.abbreviation}>
+                            <TeamRecordIcon team={team} />
+                          </div>
+                        )
+                      })
+                  }
                 </div>
               </div>
             ))

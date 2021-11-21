@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState } from 'react';
+import React from 'react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { Draft, fetchDraft } from './queries/Draft'
 import { Team, fetchTeams } from './queries/Teams'
@@ -15,13 +15,13 @@ enum TeamSortOrder {
 }
 
 
-export function Teams(): JSX.Element {
+export function Teams (): JSX.Element {
   const staleTime = Number(process.env.NFP_STALE_TIME!)
-  if (!staleTime) throw new Error('env undefined: NFP_STALE_TIME')
-  
+  if (!staleTime) {throw new Error('env undefined: NFP_STALE_TIME')}
+
   const [sort, setSort] = useState(TeamSortOrder.Draft)
-  const {data: draft} = useQuery<Draft>('draft', fetchDraft, { staleTime })
-  const {data: teams} = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
+  const { data: draft } = useQuery<Draft>('draft', fetchDraft, { staleTime })
+  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
 
   const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as TeamSortOrder)
@@ -65,14 +65,14 @@ export function Teams(): JSX.Element {
               switch (sort) {
               case TeamSortOrder.Draft:
                 return a.draft.overall - b.draft.overall
-    
+
               case TeamSortOrder.Points:
                 return b.points - a.points
-    
+
               case TeamSortOrder.Owner:
                 return a.draft.owner.localeCompare(b.draft.owner) ||
                   a.draft.overall - b.draft.overall
-    
+
               default:
               case TeamSortOrder.Record:
                 return b.record.wins === a.record.wins

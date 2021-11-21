@@ -48,13 +48,13 @@ interface EspnTeamsData {
 
 
 
-function assertIsEspnTeamsData(data: any): asserts data is EspnTeamsData {
+function assertIsEspnTeamsData (data: any): asserts data is EspnTeamsData {
   if (!('sports' in data)
       || !data.sports.length
       || !('leagues' in data.sports[0])
       || !data.sports[0].leagues.length
       || !('teams' in data.sports[0].leagues[0])) {
-    throw new Error(`Malformed teams data from ESPN`)
+    throw new Error('Malformed teams data from ESPN')
   }
 }
 
@@ -74,7 +74,7 @@ export async function fetchTeams (draft: Draft): Promise<Team[]> {
     ?.teams
 
   if (!teams) {
-    throw new Error("ESPN data isn't what we wanted")
+    throw new Error('ESPN data isn\'t what we wanted')
   }
 
   return teams.map(team => {
@@ -92,7 +92,7 @@ export async function fetchTeams (draft: Draft): Promise<Team[]> {
     if (!pick) {
       return
     }
-    
+
     return {
       name: t.name ?? 'Football Team',
       abbreviation: t.abbreviation,
@@ -103,7 +103,7 @@ export async function fetchTeams (draft: Draft): Promise<Team[]> {
         overall: draft.picks.findIndex(pick => pick.team === t.abbreviation) + 1,
         round: pick.round,
       },
-      points: pick.round * record.wins
+      points: pick.round * record.wins,
     }
   }).filter((team): team is Team => !!team)
 

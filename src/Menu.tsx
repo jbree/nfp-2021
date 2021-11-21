@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link } from "react-router-dom";
-import GithubCorner from 'react-github-corner';
+import { Link } from 'react-router-dom'
+import GithubCorner from 'react-github-corner'
 import './Menu.scss'
 
 export function Menu (): JSX.Element {

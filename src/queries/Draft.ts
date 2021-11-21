@@ -7,7 +7,7 @@ export interface Draft {
   }[]
 }
 
-function assertIsDraft(data: any): asserts data is Draft {
+function assertIsDraft (data: any): asserts data is Draft {
   if (!('players' in data) || !('picks' in data)) {
     throw new Error('Invalid draft data')
   }
@@ -20,7 +20,7 @@ function assertIsDraft(data: any): asserts data is Draft {
   // TODO validate picks
 }
 
-export async function fetchDraft(): Promise<Draft> {
+export async function fetchDraft (): Promise<Draft> {
   const response = await fetch(process.env.NFP_DRAFT_URI!)
 
   if (!response.ok) {

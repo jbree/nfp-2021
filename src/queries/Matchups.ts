@@ -77,7 +77,7 @@ function assertIsScoreboardData (data: any): asserts data is ScoreboardData {
 export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   const base = process.env.NFP_SCOREBOARD_URI!
   const url = week ? urljoin(base, `?week=${week}`) : base
-  
+
   const response = await fetch(url)
 
   if (!response.ok) {
@@ -91,12 +91,12 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
     const competition = event.competitions[0]
     const competitors = competition.competitors
     const status = competition.status
-    
+
     const done = status.type.completed && status.type.description === 'Final'
 
     const h = competitors.find(c => c.homeAway === 'home')!
     const a = competitors.find(c => c.homeAway === 'away')!
-    
+
     return {
       home: {
         team: h.team.abbreviation,
@@ -114,11 +114,11 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
       date: Date.parse(competition.date) || Infinity,
     }
   })
-  
+
   const weeks = data.leagues
-    .find((league) => league.abbreviation === "NFL")!
+    .find((league) => league.abbreviation === 'NFL')!
     .calendar
-    .find((calendar) => calendar.value === "2")!
+    .find((calendar) => calendar.value === '2')!
     .entries.map((entry) => {
       return {
         title: entry.label,
