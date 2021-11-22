@@ -1,4 +1,5 @@
 import { Draft } from './Draft'
+import { assertIsEspnTeamsData } from '../schemas/EspnTeamsData.jtd'
 
 export interface TeamRecord {
   wins: number
@@ -19,51 +20,16 @@ export interface Team {
   points: number
 }
 
-interface EspnTeam {
-  team: {
-    abbreviation: string
-    location: string
-    name: string
-    record: {
-      items: {
-        summary: string
-        stats: {
-          name: string
-          value: number
-        }[]
-      }[]
-    }
+export async function fetchTeams (draft?: Draft): Promise<Team[]> {
+  if (!draft) {
+    throw new Error('fetchTeams() received falsy Draft')
   }
-}
 
-interface EspnTeamsData {
-  sports: {
-    slug: string
-    leagues: {
-      slug: string
-      teams: EspnTeam[]
-    }[]
-  }[]
-}
-
-
-
-function assertIsEspnTeamsData (data: any): asserts data is EspnTeamsData {
-  if (!('sports' in data)
-      || !data.sports.length
-      || !('leagues' in data.sports[0])
-      || !data.sports[0].leagues.length
-      || !('teams' in data.sports[0].leagues[0])) {
-    throw new Error('Malformed teams data from ESPN')
-  }
-}
-
-export async function fetchTeams (draft: Draft): Promise<Team[]> {
-  const response = await fetch(process.env.NFP_TEAMS_URI!)
+  const response = await fetch(process.env.NFP_TEAMS_URI)
   if (!response.ok) {
     throw new Error('Problem fetching data')
   }
-  const data = await response.json()
+  const data = await response.json() as unknown
 
   assertIsEspnTeamsData(data)
 
@@ -87,7 +53,7 @@ export async function fetchTeams (draft: Draft): Promise<Team[]> {
       ties: stats.find(stat => stat.name === 'ties')?.value ?? 0,
     }
 
-    const pick = draft.picks.find(pick => pick.team === t.abbreviation)
+    const pick = draft.picks.find(p => p.team === t.abbreviation)
 
     if (!pick) {
       return
@@ -100,7 +66,7 @@ export async function fetchTeams (draft: Draft): Promise<Team[]> {
       record: record,
       draft: {
         owner: pick.owner,
-        overall: draft.picks.findIndex(pick => pick.team === t.abbreviation) + 1,
+        overall: draft.picks.findIndex(p => p.team === t.abbreviation) + 1,
         round: pick.round,
       },
       points: pick.round * record.wins,

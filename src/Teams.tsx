@@ -7,21 +7,23 @@ import { Record } from './Record'
 import { TeamIcon } from './TeamIcon'
 import './Teams.scss'
 
+/* eslint-disable @typescript-eslint/no-shadow */
 enum TeamSortOrder {
   Draft = 'draft',
   Points = 'points',
   Record = 'record',
   Owner = 'owner',
 }
+/* eslint-enable @typescript-eslint/no-shadow */
 
 
 export function Teams (): JSX.Element {
-  const staleTime = Number(process.env.NFP_STALE_TIME!)
+  const staleTime = Number(process.env.NFP_STALE_TIME)
   if (!staleTime) {throw new Error('env undefined: NFP_STALE_TIME')}
 
   const [sort, setSort] = useState(TeamSortOrder.Draft)
   const { data: draft } = useQuery<Draft>('draft', fetchDraft, { staleTime })
-  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
+  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime, enabled: !!draft })
 
   const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as TeamSortOrder)

@@ -6,11 +6,10 @@ import { TeamRecordIcon } from './TeamRecordIcon'
 import './Scoreboard.scss'
 
 export function Scoreboard (): JSX.Element {
-  const staleTime = Number(process.env.NFP_STALE_TIME!)
-  if (!staleTime) {throw new Error('env undefined: NFP_STALE_TIME')}
+  const staleTime = Number(process.env.NFP_STALE_TIME)
 
-  const { data: draft } = useQuery<Draft>('draft', fetchDraft, { staleTime })
-  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime, enabled: !!draft })
+  const { data: draft, status: draftStatus } = useQuery<Draft>('draft', () => fetchDraft(), { staleTime })
+  const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime, enabled: !!draft })
 
   if (!teams || !draft) {
     return <div></div>

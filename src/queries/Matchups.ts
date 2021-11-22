@@ -1,4 +1,5 @@
 import urljoin from 'url-join'
+import { assertIsScoreboardData } from '../schemas/ScoreboardData.jtd'
 
 export interface MatchupTeam {
   team: string
@@ -24,58 +25,8 @@ export interface WeeklyMatchups {
   }[]
 }
 
-interface ScoreboardData {
-  leagues: {
-    abbreviation: string
-    calendar: {
-      value: string
-      entries: {
-        detail: string
-        label: string
-        value: string
-        startDate: string
-        endDate: string
-      }[]
-    }[]
-  }[]
-  week: {
-    number: number
-    teamsOnBye: {
-      abbreviation: string
-    }[]
-  }
-  events: {
-    shortName: string
-    competitions: {
-      competitors: {
-        homeAway: 'home' | 'away'
-        team: {
-          abbreviation: string
-          color: string
-        }
-        score: string
-        winner?: boolean
-      }[]
-      status: {
-        type: {
-          completed: boolean
-          description: string
-        }
-      }
-      date: string
-      timeValid: boolean
-    }[]
-  }[]
-}
-
-
-function assertIsScoreboardData (data: any): asserts data is ScoreboardData {
-  //FIXME!
-}
-
-
 export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
-  const base = process.env.NFP_SCOREBOARD_URI!
+  const base = process.env.NFP_SCOREBOARD_URI
   const url = week ? urljoin(base, `?week=${week}`) : base
 
   const response = await fetch(url)
@@ -84,7 +35,7 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
     throw new Error('Problem fetching scoreboard data')
   }
 
-  const data = await response.json()
+  const data = await response.json() as unknown
   assertIsScoreboardData(data)
 
   const matchups: Matchup[] = data.events.map(event => {
@@ -94,8 +45,12 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
 
     const done = status.type.completed && status.type.description === 'Final'
 
-    const h = competitors.find(c => c.homeAway === 'home')!
-    const a = competitors.find(c => c.homeAway === 'away')!
+    const h = competitors.find(c => c.homeAway === 'home')
+    const a = competitors.find(c => c.homeAway === 'away')
+
+    if (!h || !a) {
+      throw new Error('Failed to fetch Matchups')
+    }
 
     return {
       home: {
@@ -116,15 +71,19 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   })
 
   const weeks = data.leagues
-    .find((league) => league.abbreviation === 'NFL')!
-    .calendar
-    .find((calendar) => calendar.value === '2')!
-    .entries.map((entry) => {
+    .find((league) => league.abbreviation === 'NFL')
+    ?.calendar
+    .find((calendar) => calendar.value === '2')
+    ?.entries.map((entry) => {
       return {
         title: entry.label,
         number: Number(entry.value),
       }
     })
+
+  if (!weeks) {
+    throw new Error('fetchMatchups() failed')
+  }
 
   const byeTeams = data.week.teamsOnBye?.map(team => team.abbreviation) ?? []
 

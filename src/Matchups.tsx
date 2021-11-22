@@ -23,9 +23,9 @@ export function Matchups (): JSX.Element {
   const [week, setWeek] = useState(0)
   const [sort, setSort] = useState(MatchupSortOrder.Points)
 
-  const { data, status: matchupsStatus } = useQuery<WeeklyMatchups>(['matchups', week], ({ pageParam = week }) => fetchMatchups(pageParam))
-  const { data: draft, status: draftStatus } = useQuery<Draft>('draft', fetchDraft)
-  const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft!), { staleTime: 60000, enabled: !!draft })
+  const { data, status: matchupsStatus } = useQuery<WeeklyMatchups>(['matchups', week], () => fetchMatchups(week))
+  const { data: draft, status: draftStatus } = useQuery<Draft>('draft', () => fetchDraft())
+  const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime: 60000, enabled: !!draft })
 
   const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as MatchupSortOrder)
@@ -91,7 +91,7 @@ export function Matchups (): JSX.Element {
             const home = teams.find(team => team.abbreviation === matchup.home.team)
             const away = teams.find(team => team.abbreviation === matchup.away.team)
 
-            if (!home || !away) {
+            if (!home || !away || !hp || !ap) {
               return <></>
             }
 
@@ -100,8 +100,8 @@ export function Matchups (): JSX.Element {
                 <div className={classNames('left name', { winner: matchup.away.winner, done: matchup.done })}>
                   {
                     matchup.away.winner && matchup.done
-                      ? `${ap?.owner} +${away.draft.round}`
-                      : `${ap?.owner} (${away.draft.round})`
+                      ? `${ap.owner} +${away.draft.round}`
+                      : `${ap.owner} (${away.draft.round})`
                   }
                 </div>
                 <div className='matchup flex'>
@@ -122,8 +122,8 @@ export function Matchups (): JSX.Element {
                 <div className={classNames('right name', { winner: matchup.home.winner, done: matchup.done })}>
                   {
                     matchup.home.winner && matchup.done
-                      ? `${hp?.owner} +${home.draft.round}`
-                      : `${hp?.owner} (${home.draft.round})`
+                      ? `${hp.owner} +${home.draft.round}`
+                      : `${hp.owner} (${home.draft.round})`
                   }
                 </div>
               </div>
@@ -142,7 +142,7 @@ export function Matchups (): JSX.Element {
               {
                 data.byeTeams.map(byeTeam => {
                   const team = teams.find(t => t.abbreviation === byeTeam)
-                  const pick = draft.picks.find(pick => pick.team === byeTeam)
+                  const pick = draft.picks.find(p => p.team === byeTeam)
 
                   return <div className='flex center bye-team' key={byeTeam}>
                     <TeamIcon abbr={byeTeam} size={45} />
