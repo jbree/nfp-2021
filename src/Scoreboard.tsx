@@ -11,8 +11,14 @@ export function Scoreboard (): JSX.Element {
   const { data: draft, status: draftStatus } = useQuery<Draft>('draft', () => fetchDraft(), { staleTime })
   const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime, enabled: !!draft })
 
-  if (!teams || !draft) {
-    return <div></div>
+  const status = [draftStatus, teamsStatus]
+
+  if (status.find(s => s === 'loading')) {
+    return <div>Loading...</div>
+  }
+
+  if (status.find(s => s === 'error') || !draft || !teams) {
+    return <div>Error loading data</div>
   }
 
   const results = draft.players.map(player => {

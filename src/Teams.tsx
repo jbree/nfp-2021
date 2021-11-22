@@ -22,15 +22,21 @@ export function Teams (): JSX.Element {
   if (!staleTime) {throw new Error('env undefined: NFP_STALE_TIME')}
 
   const [sort, setSort] = useState(TeamSortOrder.Draft)
-  const { data: draft } = useQuery<Draft>('draft', fetchDraft, { staleTime })
-  const { data: teams } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime, enabled: !!draft })
+  const { data: draft, status: draftStatus } = useQuery<Draft>('draft', fetchDraft, { staleTime })
+  const { data: teams, status: teamsStatus } = useQuery<Team[]>(['teams', draft], () => fetchTeams(draft), { staleTime, enabled: !!draft })
+
+  const status = [draftStatus, teamsStatus]
+
+  if (status.find(s => s === 'loading')) {
+    return <div>Loading...</div>
+  }
+
+  if (status.find(s => s === 'error') || !draft || !teams) {
+    return <div>Error loading data</div>
+  }
 
   const selectSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSort(e.target.value as TeamSortOrder)
-  }
-
-  if (!draft || !teams) {
-    return <></>
   }
 
   const sortOrders = [
