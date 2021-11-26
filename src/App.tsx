@@ -6,6 +6,7 @@ import {
   Route,
 } from 'react-router-dom'
 import { Scoreboard } from './Scoreboard'
+import { TeamDetail } from './TeamDetail'
 import { Teams } from './Teams'
 import { Matchups } from './Matchups'
 import { Menu } from './Menu'
@@ -20,15 +21,11 @@ export default function App () {
       <div className="container">
         <QueryClientProvider client={queryClient}>
           <Switch>
-            <Route path="/teams">
-              <Teams />
-            </Route>
-            <Route path="/matchups">
-              <Matchups />
-            </Route>
-            <Route path="/">
-              <Scoreboard />
-            </Route>
+            <Route path="/teams/:team" component={ TeamDetail } />
+            <Route path="/teams" component={ Teams } />
+            <Route path="/matchups/:week" component={ Matchups } />
+            <Route path="/matchups" component={ Matchups } />
+            <Route path="/" component={ Scoreboard } />
           </Switch>
         </QueryClientProvider>
       </div>

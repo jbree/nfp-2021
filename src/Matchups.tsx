@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
+import { useParams, RouteComponentProps } from 'react-router-dom'
 import { fetchMatchups, WeeklyMatchups } from './queries/Matchups'
 import { fetchDraft, Draft } from './queries/Draft'
 import { fetchTeams, Team } from './queries/Teams'
@@ -19,8 +20,12 @@ const sortOrders = [
   { order: MatchupSortOrder.GameTime, name: 'Game Time' },
 ]
 
-export function Matchups (): JSX.Element {
-  const [week, setWeek] = useState(0)
+interface MatchupParams {
+  week: string
+}
+
+export function Matchups (props: RouteComponentProps): JSX.Element {
+  const [week, setWeek] = useState(Number(useParams<MatchupParams>().week) ?? 0)
   const [sort, setSort] = useState(MatchupSortOrder.Points)
 
   const { data, status: matchupsStatus } = useQuery<WeeklyMatchups>(['matchups', week], () => fetchMatchups(week))
@@ -33,6 +38,7 @@ export function Matchups (): JSX.Element {
 
   const selectWeek = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setWeek(Number(e.target.value))
+    props.history.replace(`/matchups/${e.target.value}`)
   }
 
   const status = [matchupsStatus, draftStatus, teamsStatus]
