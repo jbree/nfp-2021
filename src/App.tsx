@@ -5,6 +5,7 @@ import {
   Switch,
   Route,
 } from 'react-router-dom'
+import { Rules } from './Rules'
 import { Scoreboard } from './Scoreboard'
 import { TeamDetail } from './TeamDetail'
 import { Teams } from './Teams'
@@ -25,6 +26,7 @@ export default function App () {
             <Route path="/teams" component={ Teams } />
             <Route path="/matchups/:week" component={ Matchups } />
             <Route path="/matchups" component={ Matchups } />
+            <Route path="/rules" component={ Rules } />
             <Route path="/" component={ Scoreboard } />
           </Switch>
         </QueryClientProvider>
