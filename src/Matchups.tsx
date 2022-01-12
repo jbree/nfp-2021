@@ -66,7 +66,7 @@ export function Matchups (props: RouteComponentProps): JSX.Element {
 
   return (
     <>
-      <h2>Week {selectedWeek} Matchups</h2>
+      <h2>{data.weeks[selectedWeek - 1].title} Matchups</h2>
       <p>
         <select id='week' key='select-week' onChange={selectWeek} value={selectedWeek}>
           {
@@ -98,7 +98,17 @@ export function Matchups (props: RouteComponentProps): JSX.Element {
             const away = teams.find(team => team.abbreviation === matchup.away.team)
 
             if (!home || !away || !hp || !ap) {
-              return <></>
+              return (
+                <div className='row matchup' key={matchup.id}>
+                  <div className='left name'></div>
+                  <div className='matchup flex'>
+                    <div className='right team flex center'>TBD</div>
+                    <div>@</div>
+                    <div className='left team flex center'>TBD</div>
+                  </div>
+                  <div className='right name'></div>
+                </div>
+              )
             }
 
             return(

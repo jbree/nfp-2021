@@ -38,6 +38,8 @@ const ScoreboardEventCompetitor = {
       additionalProperties: true,
       properties: {
         abbreviation: { type: 'string' },
+      },
+      optionalProperties: {
         color: { type: 'string' },
       },
     },
@@ -56,6 +58,7 @@ const ScoreboardEvents = {
       elements: {
         additionalProperties: true,
         properties: {
+          id: { type: 'string' },
           competitors: {
             elements: ScoreboardEventCompetitor,
           },

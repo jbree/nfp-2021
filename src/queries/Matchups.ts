@@ -3,7 +3,7 @@ import { assertIsScoreboardData } from '../schemas/ScoreboardData.jtd'
 
 export interface MatchupTeam {
   team: string
-  color: string
+  color?: string
   score: number
   winner: boolean
 }
@@ -13,6 +13,7 @@ export interface Matchup {
   away: MatchupTeam
   done: boolean
   date: number
+  id: string
 }
 
 export interface WeeklyMatchups {
@@ -27,7 +28,13 @@ export interface WeeklyMatchups {
 
 export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   const base = process.env.NFP_SCOREBOARD_URI
-  const url = week ? urljoin(base, `?week=${week}`) : base
+
+  const seasonType = (week && week < 18) ? 2 : 3
+  if (week && seasonType === 3) {
+    week -= 18
+  }
+
+  const url = week ? urljoin(base, `?week=${week}&seasontype=${seasonType}`) : base
 
   const response = await fetch(url)
 
@@ -65,6 +72,7 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
         score: parseInt(a.score),
         winner: !!a.winner,
       },
+      id: competition.id,
       done,
       date: Date.parse(competition.date) || Infinity,
     }
@@ -80,6 +88,18 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
         number: Number(entry.value),
       }
     })
+
+  weeks?.push(...(data.leagues
+    .find(league => league.abbreviation === 'NFL')
+    ?.calendar
+    .find(calendar => calendar.value === '3')
+    ?.entries.map(entry => {
+      return {
+        title: entry.label,
+        number: Number(entry.value) + 18,
+      }
+    }) || [])
+  )
 
   if (!weeks) {
     throw new Error('fetchMatchups() failed')
