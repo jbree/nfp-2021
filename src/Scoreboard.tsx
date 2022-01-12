@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 import { Draft, fetchDraft } from './queries/Draft'
 import { Team, fetchTeams } from './queries/Teams'
 import { TeamRecordIcon } from './TeamRecordIcon'
@@ -23,7 +24,7 @@ export function Scoreboard (): JSX.Element {
 
   const results = draft.players.map(player => {
     const playerTeams = teams.filter(team => team.draft.owner === player)
-    const playerScore = playerTeams.reduce((p, c) => p + c.points, 0)
+    const playerScore = playerTeams.reduce((p, c) => p + c.points + c.playoffPoints, 0)
 
     return {
       player: player,

@@ -64,7 +64,8 @@ export function Teams (): JSX.Element {
           <div className='flex center teams-stats'>
             <div className='teams-stat center'>Draft Round</div>
             <div className='teams-stat center'>Overall Pick</div>
-            <div className='teams-stat center'>Points</div>
+            <div className='teams-stat center'>Reg Pts</div>
+            <div className='teams-stat center'>Post Pts</div>
           </div>
         </div>
         {
@@ -75,7 +76,7 @@ export function Teams (): JSX.Element {
                 return a.draft.overall - b.draft.overall
 
               case TeamSortOrder.Points:
-                return b.points - a.points
+                return (b.points + b.playoffPoints) - (a.points + a.playoffPoints)
 
               case TeamSortOrder.Owner:
                 return a.draft.owner.localeCompare(b.draft.owner) ||
@@ -104,6 +105,7 @@ export function Teams (): JSX.Element {
                   <div className='teams-stat center'>{team.draft.round}</div>
                   <div className='teams-stat center'>{team.draft.overall}</div>
                   <div className='teams-stat center'>{team.points}</div>
+                  <div className='teams-stat center'>{team.playoffPoints}</div>
                 </div>
               </div>
             ))

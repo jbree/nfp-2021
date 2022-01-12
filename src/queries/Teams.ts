@@ -18,6 +18,43 @@ export interface Team {
   }
   record: TeamRecord
   points: number
+  playoffPoints: number
+}
+
+const PLAYOFF_POINTS_BYE_WEEK = 4
+const PLAYOFF_POINTS_DIVISION_CHAMP = 8
+const PLAYOFF_POINTS_WILD_CARD_BERTH = 5
+const PLAYOFF_POINTS_WILD_CARD_WIN = 4
+const PLAYOFF_POINTS_DIVISION_ROUND_WIN = 10
+const PLAYOFF_POINTS_CONFERENCE_WIN = 10
+const PLAYOFF_POINTS_SUPERBOWL_WIN = 10
+
+interface StatsRecord {
+  name: string
+  value: number
+}
+
+function getPlayoffPoints (stats: StatsRecord[]): number {
+  const seed = stats.find(stat => stat.name === 'playoffSeed')?.value
+
+  if (!seed) {
+    return 0
+  }
+
+  let points = 0
+
+  if (seed === 1.0) {
+    points += PLAYOFF_POINTS_BYE_WEEK
+  }
+
+  if (seed <= 4.0) {
+    points += PLAYOFF_POINTS_DIVISION_CHAMP
+  }
+  else if (seed <= 7.0) {
+    points += PLAYOFF_POINTS_WILD_CARD_BERTH
+  }
+
+  return points
 }
 
 export async function fetchTeams (draft?: Draft): Promise<Team[]> {
@@ -70,6 +107,7 @@ export async function fetchTeams (draft?: Draft): Promise<Team[]> {
         round: pick.round,
       },
       points: pick.round * record.wins,
+      playoffPoints: getPlayoffPoints(stats),
     }
   }).filter((team): team is Team => !!team)
 
