@@ -109,7 +109,7 @@ export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
 
   return {
     matchups,
-    week: data.week.number,
+    week: data.week.number + (data.season.type === 3 ? 18 : 0),
     weeks,
     byeTeams,
   }

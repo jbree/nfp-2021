@@ -85,6 +85,12 @@ const ScoreboardEvents = {
 const ScoreboardSchema = {
   additionalProperties: true,
   properties: {
+    season: {
+      additionalProperties: true,
+      properties: {
+        type: { type: 'uint32' },
+      },
+    },
     week: {
       additionalProperties: true,
       properties: {
