@@ -29,7 +29,7 @@ export interface WeeklyMatchups {
 export async function fetchMatchups (week?: number): Promise<WeeklyMatchups> {
   const base = process.env.NFP_SCOREBOARD_URI
 
-  const seasonType = (week && week < 18) ? 2 : 3
+  const seasonType = (week && week < 19) ? 2 : 3
   if (week && seasonType === 3) {
     week -= 18
   }
