@@ -1,4 +1,5 @@
 import { Draft } from './Draft'
+import { Postseason, fetchPostseason } from './Postseason'
 import { assertIsEspnTeamsData } from '../schemas/EspnTeamsData.jtd'
 
 export interface TeamRecord {
@@ -34,7 +35,7 @@ interface StatsRecord {
   value: number
 }
 
-function getPlayoffPoints (stats: StatsRecord[]): number {
+function getPlayoffPoints (stats: StatsRecord[], postseasonWins: number): number {
   const seed = stats.find(stat => stat.name === 'playoffSeed')?.value
 
   if (!seed) {
@@ -54,6 +55,16 @@ function getPlayoffPoints (stats: StatsRecord[]): number {
     points += PLAYOFF_POINTS_WILD_CARD_BERTH
   }
 
+  if (postseasonWins) {
+    // first win for top seed is a divisional win, all others are WC round
+    points += seed === 1
+      ? PLAYOFF_POINTS_DIVISION_ROUND_WIN
+      : PLAYOFF_POINTS_WILD_CARD_WIN
+
+    // 10 points for every additional post-season wins
+    points += (postseasonWins - 1) * 10
+  }
+
   return points
 }
 
@@ -62,6 +73,7 @@ export async function fetchTeams (draft?: Draft): Promise<Team[]> {
     throw new Error('fetchTeams() received falsy Draft')
   }
 
+  const psAwait = fetchPostseason()
   const response = await fetch(process.env.NFP_TEAMS_URI)
   if (!response.ok) {
     throw new Error('Problem fetching data')
@@ -79,6 +91,8 @@ export async function fetchTeams (draft?: Draft): Promise<Team[]> {
   if (!teams) {
     throw new Error('ESPN data isn\'t what we wanted')
   }
+
+  const postseason = await psAwait
 
   return teams.map(team => {
     const t = team.team
@@ -107,7 +121,7 @@ export async function fetchTeams (draft?: Draft): Promise<Team[]> {
         round: pick.round,
       },
       points: pick.round * record.wins,
-      playoffPoints: getPlayoffPoints(stats),
+      playoffPoints: getPlayoffPoints(stats, postseason[t.abbreviation]),
     }
   }).filter((team): team is Team => !!team)
 
